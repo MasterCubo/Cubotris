@@ -28,7 +28,7 @@ function clearPreviewBoard() {
 function placePreviewPieces() {
       clearPreviewBoard()
       for (let i = 0; i < 5; i++){
-      let previewPiece = rotate2dListClockwise(tetrisPieces[bag[i]])
+      let previewPiece = rotate2dListCounterClockwise(tetrisPieces[bag[i]])
       for (let row of Array(len(previewPiece)).keys()){
         for (let col of Array(len(previewPiece[row])).keys()){
             if (previewPiece[row][col]){
