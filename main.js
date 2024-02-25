@@ -82,6 +82,14 @@ let previewBoard = []
 
 let combo = -1
 
+let leftHoldingFrames
+let rightHoldingFrames
+let DARRate = 10 // in frames of holding
+// if you want to measure in ms
+// let DARRate = Math.floor(ms/16.7)
+let ARRRate = 6 // in frames of holding
+// tetr.io has it at 2, and it feels natural, so idk why setting this to 2 feels so bad.
+
 function setup(){
     createCanvas(400,400)
     gameOver = false
@@ -91,6 +99,9 @@ function setup(){
     totalClearedLines = 0
     heldPieceIndex = null
     combo = -1
+  
+    leftHoldingFrames = 0
+    rightHoldingFrames = 0
   
     board = []
     for (let row of Array(rows).keys()) {
@@ -144,6 +155,15 @@ function rotate2dListCounterClockwise(L) {
   for (let row of L) {
     M.push(row.slice())}
   M = rotate2dListClockwise(M)
+  M = rotate2dListClockwise(M)
+  M = rotate2dListClockwise(M)
+  return M
+}
+
+function rotate2dList180(L) {
+  let M = []
+  for (let row of L) {
+    M.push(row.slice())}
   M = rotate2dListClockwise(M)
   M = rotate2dListClockwise(M)
   return M
@@ -277,12 +297,57 @@ function rotatePieceClockwise(){
         pieceTopRow = oldTopRow
         pieceLeftCol = oldLeftCol}
 }
+  
+function rotatePieceCounterClockwise(){
+    oldPiece = piece
+    oldTopRow = pieceTopRow
+    oldLeftCol = pieceLeftCol
+    
+    centerRow = oldTopRow + Math.floor(len(oldPiece)/2)
+    centerCol = oldLeftCol + Math.floor(len(oldPiece[0])/2)
+    
+    piece = rotate2dListCounterClockwise(piece)
+    pieceTopRow = centerRow - Math.floor(len(piece)/2)
+    pieceLeftCol = centerCol - Math.floor(len(piece[0])/2)
+    
+    if (pieceIsLegal()){
+        return true}
+    else{
+        piece = oldPiece
+        pieceTopRow = oldTopRow
+        pieceLeftCol = oldLeftCol}
+}
+
+function rotatePiece180(){
+    oldPiece = piece
+    oldTopRow = pieceTopRow
+    oldLeftCol = pieceLeftCol
+    
+    centerRow = oldTopRow + Math.floor(len(oldPiece)/2)
+    centerCol = oldLeftCol + Math.floor(len(oldPiece[0])/2)
+    
+    piece = rotate2dList180(piece)
+    pieceTopRow = centerRow - Math.floor(len(piece)/2)
+    pieceLeftCol = centerCol - Math.floor(len(piece[0])/2)
+    
+    if (pieceIsLegal()){
+        return true}
+    else{
+        piece = oldPiece
+        pieceTopRow = oldTopRow
+        pieceLeftCol = oldLeftCol}
+}
+  
 function draw(){
     // push()
     // fill(0)
     // rect(-10,-10,410,410)
     // pop()
     background(color(56,60,68))
+  
+    doHoldingFrames()  //
+    doDAR()            // Things tied to the Framerate
+    doARR()            //
   
     drawBoard()
     drawPiece()
@@ -294,6 +359,22 @@ function draw(){
   // frameCount is increasing at 60 frames per second
     if (frameCount%round((1/speedCurve[level-1])) == 0) {
       takeStep()
+    }
+  
+    if (!isLooping()){
+      push()
+      let c = color(25)
+      c.setAlpha(200)
+      fill(c)
+      noStroke()
+      rect(0,0,400,400)
+      pop()
+      
+      push()
+      textAlign(CENTER)
+      textSize(20)
+      text("PAUSED", 200, 200)
+      pop()
     }
 }
 
@@ -560,6 +641,43 @@ function getCellSize(){
     let cellHeight = boardHeight / rows
     return [cellWidth, cellHeight]
 }
+
+function doHoldingFrames() {
+  if(keyIsDown(LEFT_ARROW)){
+     leftHoldingFrames += 1
+    console.log(leftHoldingFrames)
+  }
+  if (keyIsDown(RIGHT_ARROW)){
+      rightHoldingFrames += 1
+    console.log(rightHoldingFrames)
+    }
+}  
+  
+function doDAR() {
+  if(keyIsDown(LEFT_ARROW)){
+     if (leftHoldingFrames >= DARRate) {
+        while(movePiece(0,-1)){}
+    }
+  }
+  if (keyIsDown(RIGHT_ARROW)){
+    if (rightHoldingFrames >= DARRate) {
+       while(movePiece(0,1)){}
+    }
+  }
+}
+
+function doARR() {
+  if(keyIsDown(LEFT_ARROW)){
+    if (leftHoldingFrames % ARRRate == 0) { // every ARRRate frames
+      movePiece(0,-1)
+    }
+  }
+  if(keyIsDown(RIGHT_ARROW)){
+    if (rightHoldingFrames % ARRRate == 0) {
+      movePiece(0,1)
+    }
+  }
+}
   
 function keyPressed(){
   if (! gameOver){
@@ -605,26 +723,50 @@ function keyPressed(){
         case 'c':
           holdPiece()
           break
-        case 'f':
-          heldThisFall = false
+        case 'z':
+          rotatePieceCounterClockwise()
           break
+        case 'a':
+          rotatePiece180()
+          break
+          
+        case 'p':
+          if (isLooping()) {
+            noLoop()
+            takeStep()
+          }
+          else{
+            loop()
+          }
+          break
+            
         // case 's':
         //     takeStep()
         //     break
-        
         // case 't':
         //   tetris = 30
         //   break
-          case "=":
-           level+=1
-            break
-        case '-':
-            level-=1
-            break
+        //   case "=":
+        //    level+=1
+        //     break
+        // case '-':
+        //     level-=1
+        //     break
     }
     
     } 
     if (key == 'r'){
     setup()}
+}
+
+function keyReleased() {
+  switch (key){
+    case 'ArrowLeft':
+      leftHoldingFrames = 0
+      break
+    case 'ArrowRight':
+      rightHoldingFrames = 0
+      break
+  }
 }
 
