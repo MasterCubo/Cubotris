@@ -26,7 +26,7 @@ function clearHeldBoard() {
   
 function placeHeldPiece() {
       clearHeldBoard()
-      let heldPiece = rotate2dListClockwise(tetrisPieces[heldPieceIndex])
+      let heldPiece = rotate2dListCounterClockwise(tetrisPieces[heldPieceIndex])
       if (heldPieceIndex != null){
       for (let row of Array(len(heldPiece)).keys()){
         for (let col of Array(len(heldPiece[row])).keys()){
