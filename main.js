@@ -768,6 +768,7 @@ function keyPressed(){
     } 
     if (key == 'r'){
     setup()}
+  return false // prevent space scrolling and other default actions 
 }
 
 function keyReleased() {
