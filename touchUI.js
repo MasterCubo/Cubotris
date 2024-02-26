@@ -99,6 +99,9 @@ function mousePressed() {
     case 1:  
       TouchUI = !TouchUI
       break
+  }
+  if (TouchUI) {
+  switch(mouseInBox(mouseX, mouseY)) {
     case 2: 
       rotatePieceCounterClockwise()
       break
@@ -124,5 +127,5 @@ function mousePressed() {
       movePiece(1, 0)
       addScore(1,0,0)
       break
-  }
+  }}
 }
