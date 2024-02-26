@@ -22,6 +22,10 @@ function len(item){
   return item.length
 }
 // TO IMPLEMENT:
+// the updated version of this list is in index.html
+// i like this to show where i've come.
+
+
 // * 7-bag piece system || DONE
 // * gameover || done
 // * score || done
@@ -90,8 +94,10 @@ let DARRate = 10 // in frames of holding
 let ARRRate = 6 // in frames of holding
 // tetr.io has it at 2, and it feels natural, so idk why setting this to 2 feels so bad.
 
-function setup(){
-    createCanvas(400,400)
+let TouchUI = false
+
+function setup(){ // called on game restart
+    createCanvas(400,600)
     gameOver = false
     tetris = 0
     score = 0
@@ -356,6 +362,7 @@ function draw(){
     drawPreview()
     drawBoardBorder()
     drawText()
+    drawTouchUI()
   // frameCount is increasing at 60 frames per second
     if (frameCount%round((1/speedCurve[level-1])) == 0) {
       takeStep()
@@ -533,17 +540,19 @@ function drawText() {
     if (gameOver) {
       fill(255,0,0)
       text('Tetris\nGame Over!\nPress r to try \nagain', 10, 30)
-      text("LVL: "+level, 310,30)
-      text("SCR: "+score, 310,50)
-      text("LNS: "+totalClearedLines, 310,70)
     }
     else{
     text('Cubotris', 10, 30)
-    text("LVL: "+level, 310,30)
-    text("SCR: "+score, 310,50)
-    text("LNS: "+totalClearedLines, 310,70)
     pop()
     }
+  push()
+  fill(255)
+  textSize(16)
+  textAlign(CENTER)
+  text("Level: "+level, 200,430)
+  text("Score: "+score, 200,450)
+  text("Lines: "+totalClearedLines, 200,470)
+  pop()
     if (tetris > 0) {
       tetris -= 1
       if (tetris%10 == 0 || (tetris+2)%10==0 || (tetris+1)%10==0){}
@@ -645,11 +654,11 @@ function getCellSize(){
 function doHoldingFrames() {
   if(keyIsDown(LEFT_ARROW)){
      leftHoldingFrames += 1
-    console.log(leftHoldingFrames)
+    //console.log(leftHoldingFrames)
   }
   if (keyIsDown(RIGHT_ARROW)){
       rightHoldingFrames += 1
-    console.log(rightHoldingFrames)
+    //console.log(rightHoldingFrames)
     }
 }  
   
@@ -739,6 +748,8 @@ function keyPressed(){
             loop()
           }
           break
+        case 't': // toggle touchUI
+          TouchUI = !TouchUI
             
         // case 's':
         //     takeStep()
