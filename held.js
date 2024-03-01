@@ -1,7 +1,4 @@
 
-
-
-
 function drawHeldBorder() {
   // draw the board outline (with double-thickness):
   push()
@@ -11,7 +8,7 @@ function drawHeldBorder() {
   // rect(15, 125, 9.5*8, 9.4*8)
   fill('grey')
   noStroke()
-  text("Held", 15, 115) 
+  text("Held", 15, 215) 
   pop()
 }
   
@@ -57,7 +54,7 @@ function drawHeldCell(col, row, pcolor, highlight) {
   let cellHeight = widthHeight[1]
   
   let cellLeft = 15 + col * cellWidth
-  let cellTop = 125 + row * cellHeight // bump it down one.
+  let cellTop = 225 + row * cellHeight 
   
   
   push()
