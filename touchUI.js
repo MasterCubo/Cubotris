@@ -1,4 +1,5 @@
 let UIButtons = []
+let mouseWasInBox = 3
 
 class UIButton { // i hate writing classes.
   
@@ -24,6 +25,13 @@ class UIButton { // i hate writing classes.
     push()
     textAlign(CENTER)
     textSize(this.txtSize)
+    if (len(this.txt) == 1){
+      textFont('Arial')
+    }
+    else {
+      textFont(hundin)
+    }
+    fill(255)
     text(this.txt, this.x+this.w/2, this.y+this.h/2+(this.txtSize/4))
     pop()
   }
@@ -43,8 +51,8 @@ class UIButton { // i hate writing classes.
 
 
 
-const newGameButton = new UIButton(15,215,76,38,'New Game', 12, 'grey')
-const touchUIButton = new UIButton(15,260,76,38,'Touch UI', 12, 'grey')
+const newGameButton = new UIButton(15,310,76,38,'New Game', 12, 'grey')
+const touchUIButton = new UIButton(15,355,76,38,'Touch UI', 12, 'grey')
 
 const bW = 65 // buttonWidth
 const btS = 50 // button Text Size
@@ -90,13 +98,31 @@ function mouseInBox(x,y) {
     if(UIButtons[i].clickInButton(x,y)) {return i}
   }
 }
-  
+function mouseMoved() {
+  let inAnyBox = false 
+  for (let i of Array(len([0,1])).keys()) {
+    if(UIButtons[i].clickInButton(mouseX,mouseY)) {
+      if(i != mouseWasInBox){
+        mouseWasInBox = i
+        play(s.menuhover)
+       }
+      inAnyBox = true // if in a box
+    }
+  }
+  if (!inAnyBox) {mouseWasInBox = 3}
+}
+
 function mousePressed() {
+  
+  //console.log(mouseX, mouseY) // debugging
+  
   switch(mouseInBox(mouseX, mouseY)) {
     case 0:
+      play(s.menuhit1)
       setup()
       break
     case 1:  
+      play(s.menuhit1)
       TouchUI = !TouchUI
       break
   }
