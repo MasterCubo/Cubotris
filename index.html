@@ -10,12 +10,15 @@
   <body>
     <main>
     </main>
+    <script src="sound.js"></script>
     <script src="touchUI.js"></script>
     <script src="board.js"></script>
     <script src="preview.js"></script>
     <script src="held.js"></script>
+    <script src="srs.js"></script>
     <script src="main.js"></script>
     <h3>This game is in active development, and needs some finishing touches to fit the official Tetris Guidelines. However, the core gameplay element should be completed.</h3>
+    <h3>This current branch is not official Cubotris, this is the testing branch for sound and srs. 
     <br>
     <h3>Controls:</h3>
     <p>
@@ -28,23 +31,30 @@
       Space: Hard Drop<br>
       C: Hold Piece<br>
       P: Pause Game<br>
+      M: Toggle Sound<br>
     </p>
-    <h3>For those interested, here are the things.</h3>
+    <h3>For those interested, here are the things that need to be fixed.</h3>
     <p>
       * Scoring Guidelines <br>
       * * PC detection<br>
       * * TSpin Detection<br>
       * * B2B detection<br>
-      * * Combo Detection  (Done, but not shown in UI)<br><br>
-      * SRS kick table (Making it FEEL like tetris, and allowing for T-spins, the most glaring problem)<br>
+      * * <s>Combo Detection  (Done, but not shown in UI)</s><br>
+      * <s>SRS kick table (Making it FEEL like tetris, and allowing for T-spins, the most glaring problem) </s> I did a proper hachispin opener so I believe it fully works. It's SRS+ based on Tetr-io<br>
       * <s>DAS and ARR (control conveniences) done! </s> It's technically there, but it really feels wrong.<br>
-      * sound (planning on using the minecraft tetr.io soundpack <a href="https://you.have.fail/at/tetrioplus/#sfx-Ferln4-Minecraft_SFX">here</a>)<br>
-      * some better UI (text specifically)<br>
-      * something isn't right with restarting the game with 'r' and the bag loading. I think it has to do with nextBag<br>
+      * sound (planning on using the minecraft tetr.io soundpack <a href="https://you.have.fail/at/tetrioplus/#sfx-Ferln4-Minecraft_SFX">here</a>) (still need to do sidehit)<br>
+      * some better UI <br>
+      * * <s>better text</s> tetrio font! <br>
+      * * clean up everything pls<br>
       * <s>touch controls (like jstris) </s> done! (I would like the hard drop to be on the left actually) <br>
-      * DAS and ARR with touch controls (and soft drops) <br><br>
+      * I <i>think</i> I implemented Lock Delay correctly, but I need to implement the gravity not increasing past LVL 20, and then the lock delay decreasing. like tetris.com. idk what other versions of tetris do with lock delay/gravity past LVL 20. <br>
+      * <s>The holding system is broken. While swapping your pieces, it also deletes the next bag item.</s><br>
+      * <s>Some countdown system would be great, and it would allow me to use those sounds that I have</s> <br>
+      * DAS and ARR with touch controls <s>(and soft drops)</s> <br>
+      * <s>After playing for a while, the sounds get very buggy.</s> <br>
+      * Adding some fade out to the starting countdown and the reset countdown <br><br>
       The skin was inspired by <a href="https://four.lol">four.lol</a> btw<br>
-      Active development is going on on p5js.org, namely <a href="https://editor.p5js.org/Cubo/sketches/OnMDeM5Zt">here</a>. It is possible that I have moved on to v5 and not changed this link however. <br>
+      Active development is going on on p5js.org, namely <a href="https://editor.p5js.org/Cubo/sketches/Do5nUDh3C">here</a>. It is possible that I have moved on to v6 and not changed this link however. <br>
       If all else fails, the github can be found <a href="https://github.com/MasterCubo/Cubotris">here</a>, committed at each major update. 
       </p>
   
