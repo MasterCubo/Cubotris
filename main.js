@@ -124,9 +124,9 @@ let firstLoad = true
 let countdownHappening = true
 
 function preload() {
-  hundin = loadFont('/fonts/hun2.ttf')
-  config = loadFont('/fonts/cr.ttf')
-  profontwindows = loadFont('/fonts/pfw.ttf')
+  hundin = loadFont('./fonts/hun2.ttf')
+  config = loadFont('./fonts/cr.ttf')
+  profontwindows = loadFont('./fonts/pfw.ttf')
   
   loadSounds()
   console.log('done loading')
